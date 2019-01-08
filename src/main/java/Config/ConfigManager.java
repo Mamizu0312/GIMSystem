@@ -5,19 +5,18 @@ import java.util.HashMap;
 
 public class ConfigManager {
     public static boolean createConfig() {
-        BufferedWriter bw = null;
+        Writer w = null;
         try {
-            File config = new File("d\\GIM");
+            File config = new File("config.yml");
             if(config.createNewFile()) {
-                bw = new BufferedWriter(new FileWriter(config));
-                bw.write("MySQL-HOST: null");
-                bw.write("MySQL-PORT: 3306");
-                bw.write("MySQL-DB: null");
-                bw.write("MySQL-USER: null");
-                bw.write("MySQL-PASSWORD: null");
-                bw.newLine();
-                bw.write("version: alpha-build#002");
-                bw.flush();
+                w = new BufferedWriter(new FileWriter(config));
+                w.write("MySQL-HOST: null");
+                w.write("MySQL-PORT: 3306");
+                w.write("MySQL-DB: null");
+                w.write("MySQL-USER: null");
+                w.write("MySQL-PASSWORD: null");
+                w.write("version: alpha-build#003");
+                w.flush();
                 return true;
             } else {
                 return false;
@@ -26,7 +25,7 @@ public class ConfigManager {
             e.printStackTrace();
         } finally {
             try {
-                bw.close();
+                w.close();
             } catch(IOException e2) {
                 e2.printStackTrace();
             } catch(NullPointerException e3) {
@@ -44,7 +43,7 @@ public class ConfigManager {
             if(createConfig()) {
                 System.out.println("[G.I.M.S.] SQLの設定をロードしようとしましたが、config.ymlが存在しないため、生成しました。");
             }
-            config = new File("d\\GIM");
+            config = new File("config.yml");
             br = new BufferedReader(new FileReader(config));
             String read = br.readLine();
             while(read != null) {

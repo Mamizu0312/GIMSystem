@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
         System.out.println("General-Infomation-Management System");
-        File config = new File("d\\GIM\\config.yml");
+        File config = new File("config.yml");
         if(!config.exists()) {
             try {
                 config.createNewFile();
