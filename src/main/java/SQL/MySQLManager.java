@@ -1,6 +1,9 @@
 package SQL;
 
 import Config.ConfigManager;
+import StartUp.main;
+
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,8 +18,8 @@ public class MySQLManager {
         String PASSWORD;
         Connection con = null;
         HashMap<String, String> sqlconfigs = new HashMap<String, String>();
-
-        sqlconfigs = new ConfigManager().loadSQLConfigs();
+        sqlconfigs = new ConfigManager(new File("config.yml")).loadSQLConfigs();
+        //TODO: new File("config.yml"))の部分は試験的なコードなので後で書き直す
         HOST = sqlconfigs.get("HOST");
         PORT = sqlconfigs.get("PORT");
         DB = sqlconfigs.get("DB");
@@ -40,12 +43,14 @@ public class MySQLManager {
             PreparedStatement pstmt = con.prepareStatement(sendSQL);
             pstmt.executeUpdate();
             con.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                con.close();
-                return true;
+                if(con != null) {
+                    con.close();
+                }
             } catch(SQLException e) {
                 e.printStackTrace();
             }

@@ -4,10 +4,13 @@ import java.io.*;
 import java.util.HashMap;
 
 public class ConfigManager {
-    public static boolean createConfig() {
+    File config = null;
+    public ConfigManager(File config) {
+        this.config = config;
+    }
+    public boolean createConfig() {
         Writer w = null;
         try {
-            File config = new File("config.yml");
             if(config.createNewFile()) {
                 w = new BufferedWriter(new FileWriter(config));
                 w.write("MySQL-HOST: null");
@@ -17,6 +20,7 @@ public class ConfigManager {
                 w.write("MySQL-PASSWORD: null");
                 w.write("version: alpha-build#003");
                 w.flush();
+                w.close();
                 return true;
             } else {
                 return false;
@@ -25,19 +29,19 @@ public class ConfigManager {
             e.printStackTrace();
         } finally {
             try {
-                w.close();
-            } catch(IOException e2) {
-                e2.printStackTrace();
-            } catch(NullPointerException e3) {
-                e3.printStackTrace();
+                if(w != null) {
+                    w.close();
+                }
+            } catch(IOException e) {
+                e.printStackTrace();
             }
         }
         return false;
     }
 
-    public static HashMap<String, String> loadSQLConfigs() {
+    public HashMap<String, String> loadSQLConfigs() {
         BufferedReader br = null;
-        File config;
+        String read;
         HashMap<String, String> sqlconfigs= new HashMap<String, String>();
          try {
             if(createConfig()) {
@@ -45,7 +49,7 @@ public class ConfigManager {
             }
             config = new File("config.yml");
             br = new BufferedReader(new FileReader(config));
-            String read = br.readLine();
+            read = br.readLine();
             while(read != null) {
                 if(read.startsWith("MySQL-HOST")) {
                     sqlconfigs.put("HOST",read.replace("MySQL-HOST: ", ""));
@@ -58,14 +62,17 @@ public class ConfigManager {
                 } else if(read.startsWith("MySQL-PASSWORD")) {
                     sqlconfigs.put("PASSWORD",read.replace("MySQL-PASSWORD: ", ""));
                 }
-                br.close();
-                return sqlconfigs;
+                read = br.readLine();
             }
+            br.close();
+            return sqlconfigs;
         } catch(IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                br.close();
+                if(br != null) {
+                    br.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package StartUp;
 
+import Config.ConfigManager;
 import Login.Login;
 
 import java.io.*;
@@ -10,13 +11,11 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
         System.out.println("General-Infomation-Management System");
+        ConfigManager cm;
         File config = new File("config.yml");
         if(!config.exists()) {
-            try {
-                config.createNewFile();
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
+                cm = new ConfigManager(config);
+                cm.createConfig();
         }
         System.out.println("configのロードが終了しました。");
         Scanner scan = new Scanner(System.in);

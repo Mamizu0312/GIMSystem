@@ -2,6 +2,8 @@ package Login;
 
 import Config.ConfigManager;
 import SQL.MySQLConnection;
+
+import java.io.File;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -24,7 +26,7 @@ public class Login {
         PreparedStatement pstmt;
         int sqlreturn = 0;
 
-        sqlconfigs = ConfigManager.loadSQLConfigs();
+        sqlconfigs = new ConfigManager(new File("config.yml")).loadSQLConfigs();
         HOST = sqlconfigs.get("HOST");
         PORT = sqlconfigs.get("PORT");
         DB = sqlconfigs.get("DB");
