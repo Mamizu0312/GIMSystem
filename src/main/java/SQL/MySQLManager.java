@@ -1,20 +1,18 @@
 package SQL;
 
 import Config.ConfigManager;
-import com.sun.org.apache.xerces.internal.util.ErrorHandlerProxy;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 public class MySQLManager {
-    public void createTable() {
-        String HOST = null;
-        String PORT = null;
-        String DB = null;
-        String USER = null;
-        String PASSWORD = null;
+    public boolean createNewTable() {
+        String HOST;
+        String PORT;
+        String DB;
+        String USER;
+        String PASSWORD;
         Connection con = null;
         HashMap<String, String> sqlconfigs = new HashMap<String, String>();
 
@@ -28,8 +26,7 @@ public class MySQLManager {
             con = new MySQLConnection(HOST, PORT, DB, USER, PASSWORD).open();
             if(con == null) {
                 System.out.println("MySQLとのコネクションに失敗しました。");
-                System.out.println("現在、このソフトウェアは使用できません。");
-                System.exit(-1);
+                return false;
             }
             String sendSQL = "CREATE TABLE IF NOT EXISTS GIMINFO ("+
                              "ManagementNumber int NOT NULL PRIMARY KEY,"+
@@ -41,15 +38,18 @@ public class MySQLManager {
                              "EmailAddress varchar(100)"+
                              ");";
             PreparedStatement pstmt = con.prepareStatement(sendSQL);
+            pstmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
                 con.close();
+                return true;
             } catch(SQLException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 }

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class ConfigManager {
-    public boolean createConfig() {
+    public static boolean createConfig() {
         BufferedWriter bw = null;
         try {
             File config = new File("d\\GIM");
@@ -16,7 +16,7 @@ public class ConfigManager {
                 bw.write("MySQL-USER: null");
                 bw.write("MySQL-PASSWORD: null");
                 bw.newLine();
-                bw.write("version: alpha-build#001");
+                bw.write("version: alpha-build#002");
                 bw.flush();
                 return true;
             } else {
@@ -27,12 +27,16 @@ public class ConfigManager {
         } finally {
             try {
                 bw.close();
-            } catch(IOException e2) { }
+            } catch(IOException e2) {
+                e2.printStackTrace();
+            } catch(NullPointerException e3) {
+                e3.printStackTrace();
+            }
         }
         return false;
     }
 
-    public HashMap<String, String> loadSQLConfigs() {
+    public static HashMap<String, String> loadSQLConfigs() {
         BufferedReader br = null;
         File config;
         HashMap<String, String> sqlconfigs= new HashMap<String, String>();

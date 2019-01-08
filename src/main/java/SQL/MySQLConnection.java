@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQLConnection {
-    String HOST = null;
-    String PORT = null;
-    String DB = null;
-    String USER = null;
-    String PASSWORD = null;
+    String HOST;
+    String PORT;
+    String DB;
+    String USER;
+    String PASSWORD;
     public MySQLConnection(String HOST, String PORT, String DB, String USER, String PASSWORD) {
         this.HOST = HOST;
         this.PORT = PORT;
@@ -20,7 +20,7 @@ public class MySQLConnection {
     public Connection open() {
         Connection con = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
         } catch(ClassNotFoundException e) {
             System.out.println("conメソッドのJDBCのクラス指定でエラーが発生しました。開発者に問い合わせてください");
             e.printStackTrace();
@@ -32,6 +32,6 @@ public class MySQLConnection {
             System.out.println("openメソッドでのMySQLとのコネクションが失敗しました。");
             e.printStackTrace();
         }
-        return null;
+        return con;
     }
 }

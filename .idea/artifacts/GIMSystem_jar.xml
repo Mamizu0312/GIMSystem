@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GIMSystem:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GIMSystem_jar</output-path>
+    <root id="archive" name="GIMSystem.jar">
+      <element id="module-output" name="GIMSystem" />
+    </root>
+  </artifact>
+</component>
